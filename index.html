@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionário</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background-color: #f4f4f9;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background-color: #fff;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    select, input[type="text"], input[type="number"] {
+        width: auto;
+        padding: 5px;
+        box-sizing: border-box;
+        max-width: 250px; /* Define a max-width para as caixas de seleção */
+    }
+    .hidden {
+        display: none;
+    }
+    .question {
+        margin-bottom: 20px;
+    }
+    .question label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .question select {
+        margin-bottom: 10px;
+    }
+    @media (max-width: 600px) {
+        table, thead, tbody, th, td, tr {
+            display: block;
+            width: 100%;
+        }
+        thead tr {
+            display: none;
+        }
+        tr {
+            margin-bottom: 10px;
+        }
+        td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+        td::before {
+            content: attr(data-label);
+            flex-basis: 50%;
+            text-align: left;
+            font-weight: bold;
+            position: static;
+            margin-right: 10px;
+        }
+        td select {
+            flex-basis: 50%;
+        }
+    }
+
+    .slider-container {
+        width: 80%;
+        max-width: 500px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin: 20px auto;
+    }
+
+    .slider-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .factor-label {
+        font-weight: bold;
+        color: #555;
+        width: 20%;
+        text-align: center;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 60%;
+        height: 10px;
+        border-radius: 5px;
+        background: #ddd;
+        outline: none;
+        opacity: 0.7;
+        transition: opacity .2s;
+    }
+
+    .slider:hover {
+        opacity: 1;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #4CAF50;
+        cursor: pointer;
+    }
+
+    .weights {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .weights p {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+    }
+</style>    <script>
+        function updateRow(rowId) {
+            const knowBrand = document.getElementById(`know_${rowId}`).value;
+            const recommend = document.getElementById(`recommend_${rowId}`);
+            const satisfaction = document.getElementById(`satisfaction_${rowId}`);
+            const buyAgain = document.getElementById(`buyAgain_${rowId}`);
+            const otherBrandRow = document.getElementById("otherBrandRow");
+
+            if (knowBrand === "Sim") {
+                recommend.disabled = false;
+                satisfaction.disabled = false;
+                buyAgain.disabled = false;
+                if (rowId === 'Outro') {
+                    otherBrandRow.classList.remove('hidden');
+                }
+            } else {
+                recommend.disabled = true;
+                satisfaction.disabled = true;
+                buyAgain.disabled = true;
+                recommend.value = "";
+                satisfaction.value = "";
+                buyAgain.value = "";
+                if (rowId === 'Outro') {
+                    otherBrandRow.classList.add('hidden');
+                    document.getElementById(`otherBrand_Outro`).value = "";
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Questionário de Satisfação</h2>
+    <p>1- Dentre os fabricantes de equipamentos da linha amarela que você conhece, indique quais você recomendaria para amigos ou parceiros de negócios, seu nível de satisfação com o atendimento prestado e se compraria novamente com ele:</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Marca</th>
+                <th>Conhece?</th>
+                <th>Você indicaria?</th>
+                <th>Satisfação com o atendimento</th>
+                <th>Compraria Novamente?</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td data-label="Marca">CASE</td>
+                <td data-label="Conhece?">
+                    <select id="know_CASE" onchange="updateRow('CASE')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_CASE" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_CASE" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_CASE" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">CATERPILLAR</td>
+                <td data-label="Conhece?">
+                    <select id="know_CATERPILLAR" onchange="updateRow('CATERPILLAR')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_CATERPILLAR" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_CATERPILLAR" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_CATERPILLAR" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">JCB</td>
+                <td data-label="Conhece?">
+                    <select id="know_JCB" onchange="updateRow('JCB')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_JCB" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_JCB" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_JCB" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">JOHN DEERE</td>
+                <td data-label="Conhece?">
+                    <select id="know_JOHNDEERE" onchange="updateRow('JOHNDEERE')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_JOHNDEERE" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_JOHNDEERE" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_JOHNDEERE" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">HYUNDAI</td>
+                <td data-label="Conhece?">
+                    <select id="know_HYUNDAI" onchange="updateRow('HYUNDAI')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_HYUNDAI" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_HYUNDAI" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_HYUNDAI" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">KOMATSU</td>
+                <td data-label="Conhece?">
+                    <select id="know_KOMATSU" onchange="updateRow('KOMATSU')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_KOMATSU" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_KOMATSU" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_KOMATSU" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">VOLVO</td>
+                <td data-label="Conhece?">
+                    <select id="know_VOLVO" onchange="updateRow('VOLVO')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_VOLVO" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_VOLVO" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_VOLVO" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td data-label="Marca">Outro</td>
+                <td data-label="Conhece?">
+                    <select id="know_Outro" onchange="updateRow('Outro')">
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Você indicaria?"><select id="recommend_Outro" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+                <td data-label="Satisfação com o atendimento"><select id="satisfaction_Outro" disabled>
+                        <option value=""></option>
+                        <option value="Péssimo">Péssimo</option>
+                        <option value="Ruim">Ruim</option>
+                        <option value="Regular">Regular</option>
+                        <option value="Bom">Bom</option>
+                        <option value="Ótimo">Ótimo</option>
+                    </select>
+                </td>
+                <td data-label="Compraria Novamente?"><select id="buyAgain_Outro" disabled>
+                        <option value=""></option>
+                        <option value="Sim">Sim</option>
+                        <option value="Não">Não</option>
+                    </select>
+                </td>
+            </tr>
+            <tr id="otherBrandRow" class="hidden">
+                <td colspan="5" style="text-align: left;">
+                    <label for="otherBrand_Outro">Especifique a marca:</label>
+                    <input type="text" id="otherBrand_Outro">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="question">
+        <p>2 - Considerando os últimos 12 meses, expresse seu grau de concordância com as frases abaixo:</p>
+        <label>a) Houve redução no preço dos Equipamentos da Linha Amarela.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>b) As indústrias de Equipamentos da Linha Amarela no Brasil tornaram-se mais flexíveis.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>c) Aumentou a oferta de equipamentos da Linha Amarela.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>d) Houve inovação da oferta de Equipamentos da Linha Amarela.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>e) Os fabricantes de Equipamentos da Linha Amarela no Brasil passaram a oferecer produtos e serviços melhores.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>f) Os fornecedores chineses estão mais presentes no caso de retroescavadeiras.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>g) Os serviços de assistência técnica no Brasil atendem satisfatoriamente a demanda dos clientes.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>h) Os preços das peças dos equipamentos de linha amarela são adequados.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>i) Minha empresa acompanha a performance dos equipamentos de linha amarela.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>j) Os serviços de Pós Venda vem melhorando no Brasil.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+    <div class="question">
+        <p>3 - Qual seu grau de concordância com as afirmativas a seguir:</p>
+        <label>a) O desempenho dos equipamentos de Linha Amarela são similares no Brasil e no exterior.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>b) O valor de revenda dos Equipamentos de Linha Amarela não variam muito entre as marcas.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>c) As equipes comerciais, de uma forma geral, atendem bem os clientes no Brasil.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+        <label>d) Tanto faz comprar da Caterpillar; Case ou JCB, o que conta na aquisição da retroescavadeira justifica a relação Custo/ Benefício.</label>
+        <select>
+            <option value="" selected></option>
+            <option value="Discordo totalmente">Discordo totalmente</option>
+            <option value="Discordo parcialmente">Discordo parcialmente</option>
+            <option value="Não concordo e nem discordo">Não concordo e nem discordo</option>
+            <option value="Concordo parcialmente">Concordo parcialmente</option>
+            <option value="Concordo totalmente">Concordo totalmente</option>
+        </select>
+
+    <div class="question">
+        <p>4 - Selecione as 3 ÁREAS QUE MAIS INFLUENCIAM A DECISÃO DE COMPRA de equipamentos da Linha Amarela:</p>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Sócio / Diretor"> Sócio / Diretor
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Familiares do Sócio / Dono"> Familiares do Sócio / Dono
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Compras"> Compras
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Suprimentos"> Suprimentos
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Chefe da manutenção"> Chefe da manutenção
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Gerente geral"> Gerente geral
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Operador do Equipamento"> Operador do Equipamento
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Financeiro"> Financeiro
+        </label>
+        <label>
+            <input type="checkbox" name="purchase_influence" value="Comercial"> Comercial
+        </label>
+    </div>
+
+    <div class="question">
+        <p>5 - Escolha um CONJUNTO DE 6 ATRIBUTOS que considera mais importante no processo de compra de Equipamentos de Linha Amarela.</p>
+        <form id="attributesForm">
+            <label><input type="checkbox" name="attribute" value="Custo operacional"> Custo operacional</label><br>
+            <label><input type="checkbox" name="attribute" value="Relacionamento comercial"> Relacionamento comercial</label><br>
+            <label><input type="checkbox" name="attribute" value="Relacionamento técnico"> Relacionamento técnico</label><br>
+            <label><input type="checkbox" name="attribute" value="Disponibilidade do equipamento"> Disponibilidade do equipamento</label><br>
+            <label><input type="checkbox" name="attribute" value="Pós-venda"> Pós-venda</label><br>
+            <label><input type="checkbox" name="attribute" value="Inovação tecnológica"> Inovação tecnológica</label><br>
+            <label><input type="checkbox" name="attribute" value="Valor de revenda"> Valor de revenda</label><br>
+            <label><input type="checkbox" name="attribute" value="Atendimento de peças"> Atendimento de peças</label><br>
+            <label><input type="checkbox" name="attribute" value="Imagem da fábrica"> Imagem da fábrica</label><br>
+            <label><input type="checkbox" name="attribute" value="Condições de financiamento"> Condições de financiamento</label><br>
+        </form>
+    </div>
+    
+    <!-- Pergunta 6: Distribuição de 100 pontos -->
+    <div class="question">
+        <p id="pointsCounter">6 - Dos 6 ATRIBUTOS que você escolheu na questão anterior, qual é mais importante na decisão de compra de um equipamento? Distribua 100 pontos.</p>
+        <form id="pointsForm">
+            <!-- Aqui serão gerados dinamicamente os campos conforme seleção da questão 5 -->
+        </form>
+        <p>Total de pontos distribuídos: <span id="totalPoints">0</span> / 100</p>
+    </div>
+    
+    <!-- Pergunta 7: Tabela de notas -->
+    <div class="question">
+        <p>7 - Selecione a NOTA que você dá para os fabricantes de equipamentos de linha amarela. Marque apenas os 6 ATRIBUTOS que você escolheu na questão anterior. Considere 5 mais importante.</p>
+        <table class="table-question">
+            <thead>
+                <tr>
+                    <th>Atributos</th>
+                    <th>CASE</th>
+                    <th>CATERPILLAR</th>
+                    <th>JCB</th>
+                    <th>JOHN DEERE</th>
+                    <th>HYUNDAI</th>
+                    <th>KOMATSU</th>
+                    <th>VOLVO</th>
+                </tr>
+            </thead>
+            <tbody id="ratingsBody">
+                <!-- Aqui serão geradas dinamicamente as linhas conforme seleção da questão 5 -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="question">
+    <p>8 - Considerando os 6 atributos que você escolheu e o preço dos equipamentos, qual o percentual de importância na sua decisão de compra de cada um?</p>
+    <div class="slider-container">
+        <div class="slider-row">
+            <span class="factor-label">6 Atributos</span>
+            <input type="range" id="weightSlider" class="slider" min="0" max="100" value="50">
+            <span class="factor-label">Preço</span>
+        </div>
+        <div class="weights">
+            <p><span id="factor1Weight">50</span>%</p>
+            <p><span id="factor2Weight">50</span>%</p>
+        </div>
+    </div>
+</div>
+
+<!-- Pergunta 9: Equipamento específico ao responder a questão anterior -->
+<div class="question">
+    <p>9 - Você pensou em algum Equipamento específico ao responder a questão anterior? Se sim, qual?</p>
+    <input type="text" name="equipamento_especifico">
+</div>
+
+
+<!-- Pergunta 10: Tabela de Melhor e Pior -->
+<div class="question">
+    <p>10 - Qual fabricante é Melhor e qual é Pior, mesmo que você conheça só de ouvir falar</p>
+    <table class="table-question">
+        <thead>
+            <tr>
+                <th>Fatores</th>
+                <th>Melhor</th>
+                <th>Pior</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Custo operacional</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Relacionamento comercial</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Relacionamento técnico</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Disponibilidade de equipamento</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Pós-venda</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Inovação tecnológica</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Valor de revenda</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Atendimento de peças</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Imagem da fábrica</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Condições de financiamento</td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+                <td>
+                    <select>
+                        <option value="" selected></option>
+                        <option value="CASE">CASE</option>
+                        <option value="CATERPILLAR">CATERPILLAR</option>
+                        <option value="JCB">JCB</option>
+                        <option value="JOHN DEERE">JOHN DEERE</option>
+                        <option value="HYUNDAI">HYUNDAI</option>
+                        <option value="KOMATSU">KOMATSU</option>
+                        <option value="VOLVO">VOLVO</option>
+                    </select>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="question">
+    <p>11 - Sua empresa tem controle sobre:</p>
+    <label>a) Gastos com combustível</label>
+    <select name="controle_combustivel">
+        <option value="" selected>Selecione...</option>
+        <option value="Sim">Sim</option>
+        <option value="Não">Não</option>
+    </select>
+
+    <label>b) Custos de manutenção de equipamentos da linha amarela</label>
+    <select name="controle_manutencao">
+        <option value="" selected>Selecione...</option>
+        <option value="Sim">Sim</option>
+        <option value="Não">Não</option>
+    </select>
+
+    <label>c) Custos de peças</label>
+    <select name="controle_pecas">
+        <option value="" selected>Selecione...</option>
+        <option value="Sim">Sim</option>
+        <option value="Não">Não</option>
+    </select>
+
+    <label>d) Disponibilidade operacional</label>
+    <select name="controle_disponibilidade">
+        <option value="" selected>Selecione...</option>
+        <option value="Sim">Sim</option>
+        <option value="Não">Não</option>
+    </select>
+</div>
+
+<div class="question">
+    <p>12 - Considere os itens que sua empresa controla na questão anterior, qual fornecedor possui:</p>
+    
+    <label>a) Menor gasto com combustível</label>
+    <select name="menor_gasto_combustivel">
+        <option value="" selected>Selecione...</option>
+        <option value="CASE">CASE</option>
+        <option value="CATERPILLAR">CATERPILLAR</option>
+        <option value="JCB">JCB</option>
+        <option value="JOHN DEERE">JOHN DEERE</option>
+        <option value="HYUNDAI">HYUNDAI</option>
+        <option value="KOMATSU">KOMATSU</option>
+        <option value="VOLVO">VOLVO</option>
+    </select>
+
+    <label>b) Menor custo de manutenção</label>
+    <select name="menor_custo_manutencao">
+        <option value="" selected>Selecione...</option>
+        <option value="CASE">CASE</option>
+        <option value="CATERPILLAR">CATERPILLAR</option>
+        <option value="JCB">JCB</option>
+        <option value="JOHN DEERE">JOHN DEERE</option>
+        <option value="HYUNDAI">HYUNDAI</option>
+        <option value="KOMATSU">KOMATSU</option>
+        <option value="VOLVO">VOLVO</option>
+    </select>
+
+    <label>c) Menor custo de peças</label>
+    <select name="menor_custo_peças">
+        <option value="" selected>Selecione...</option>
+        <option value="CASE">CASE</option>
+        <option value="CATERPILLAR">CATERPILLAR</option>
+        <option value="JCB">JCB</option>
+        <option value="JOHN DEERE">JOHN DEERE</option>
+        <option value="HYUNDAI">HYUNDAI</option>
+        <option value="KOMATSU">KOMATSU</option>
+        <option value="VOLVO">VOLVO</option>
+    </select>
+
+    <label>d) Maior disponibilidade operacional</label>
+    <select name="maior_disponibilidade_operacional">
+        <option value="" selected>Selecione...</option>
+        <option value="CASE">CASE</option>
+        <option value="CATERPILLAR">CATERPILLAR</option>
+        <option value="JCB">JCB</option>
+        <option value="JOHN DEERE">JOHN DEERE</option>
+        <option value="HYUNDAI">HYUNDAI</option>
+        <option value="KOMATSU">KOMATSU</option>
+        <option value="VOLVO">VOLVO</option>
+    </select>
+</div>
+
+<div class="question">
+    <p>13 - Quais fontes de informação você consulta para peças e equipamentos da linha amarela?</p>
+    
+    <input type="checkbox" id="fonte_a" name="fontes[]" value="Mecânicos próprios">
+    <label for="fonte_a">a) Mecânicos próprios</label><br>
+
+    <input type="checkbox" id="fonte_b" name="fontes[]" value="Mecânicos independentes">
+    <label for="fonte_b">b) Mecânicos independentes</label><br>
+
+    <input type="checkbox" id="fonte_c" name="fontes[]" value="Familiares">
+    <label for="fonte_c">c) Familiares</label><br>
+
+    <input type="checkbox" id="fonte_d" name="fontes[]" value="Técnicos">
+    <label for="fonte_d">d) Técnicos</label><br>
+
+    <input type="checkbox" id="fonte_e" name="fontes[]" value="Colegas do mesmo ramo de atuação">
+    <label for="fonte_e">e) Colegas do mesmo ramo de atuação</label><br>
+
+    <input type="checkbox" id="fonte_f" name="fontes[]" value="Portais de internet">
+    <label for="fonte_f">f) Portais de internet. Quais?</label>
+    <input type="text" id="portais_internet" name="portais_internet" style="display: none;"><br>
+
+    <input type="checkbox" id="fonte_g" name="fontes[]" value="Redes sociais">
+    <label for="fonte_g">g) Redes sociais. Quais?</label>
+    <input type="text" id="redes_sociais" name="redes_sociais" style="display: none;"><br>
+
+    <input type="checkbox" id="fonte_h" name="fontes[]" value="Influencers">
+    <label for="fonte_h">h) Influencers. Quais?</label>
+    <input type="text" id="influencers" name="influencers" style="display: none;"><br>
+
+    <input type="checkbox" id="fonte_i" name="fontes[]" value="Não consulta ninguém">
+    <label for="fonte_i">i) Não consulta ninguém</label><br>
+</div>
+
+<div class="question">
+    <p>14 - Entre os principais fornecedores de Linha Amarela da sua empresa nos últimos 2 anos, como você avalia esses aspectos?</p>
+    
+    <label>a) Capacidade técnica dos vendedores</label>
+    <select name="avaliacao_capacidade_tecnica">
+        <option value="" selected>Selecione...</option>
+        <option value="Péssimo">Péssimo</option>
+        <option value="Ruim">Ruim</option>
+        <option value="Regular">Regular</option>
+        <option value="Bom">Bom</option>
+        <option value="Ótimo">Ótimo</option>
+    </select>
+
+    <label>b) Abrangência da rede satisfatória (quantidade de postos de atendimento)</label>
+    <select name="avaliacao_abrangencia_rede">
+        <option value="" selected>Selecione...</option>
+        <option value="Péssimo">Péssimo</option>
+        <option value="Ruim">Ruim</option>
+        <option value="Regular">Regular</option>
+        <option value="Bom">Bom</option>
+        <option value="Ótimo">Ótimo</option>
+    </select>
+
+    <label>c) Assistência técnica capacitada</label>
+    <select name="avaliacao_assistencia_tecnica">
+        <option value="" selected>Selecione...</option>
+        <option value="Péssimo">Péssimo</option>
+        <option value="Ruim">Ruim</option>
+        <option value="Regular">Regular</option>
+        <option value="Bom">Bom</option>
+        <option value="Ótimo">Ótimo</option>
+    </select>
+
+    <label>d) Disponibilidade de peças de reposição</label>
+    <select name="avaliacao_disponibilidade_pecas">
+        <option value="" selected>Selecione...</option>
+        <option value="Péssimo">Péssimo</option>
+        <option value="Ruim">Ruim</option>
+        <option value="Regular">Regular</option>
+        <option value="Bom">Bom</option>
+        <option value="Ótimo">Ótimo</option>
+    </select>
+</div>
+
+<div class="question">
+    <p>15 - Quais equipamentos e de qual marca de Linha Amarela sua empresa adquiriu nos últimos 2 anos?</p>
+    <textarea name="equipamentos_adquiridos" rows="4" cols="50"></textarea>
+</div>
+
+<!-- Pergunta 16: Inovações nos Equipamentos de Linha Amarela -->
+<div class="question">
+    <p>15 - Quais inovações poderiam ser introduzidas nos Equipamentos de Linha Amarela? Citar por equipamento.</p>
+    <textarea name="inovacoes_propostas" rows="4" cols="50"></textarea>
+</div>
+
+<!-- Pergunta 17: Aprimoramento do relacionamento com os clientes -->
+<div class="question">
+    <p>17 - Como os fabricantes de Linha Amarela podem aprimorar o relacionamento com seus clientes?</p>
+    <textarea name="aprimoramento_relacionamento" rows="4" cols="50"></textarea>
+</div>
+
+<!-- Pergunta 18: Nome da empresa -->
+<div class="question">
+    <p>18 - Informe o nome da sua empresa para compartilharmos os resultados futuramente.</p>
+    <input type="text" name="nome_empresa">
+</div>
+
+    <button type="submit" style="padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Enviar</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const attributesForm = document.getElementById('attributesForm');
+    const pointsForm = document.getElementById('pointsForm');
+    const ratingsBody = document.getElementById('ratingsBody');
+    const pointsCounter = document.getElementById('pointsCounter');
+    const totalPointsSpan = document.getElementById('totalPoints');
+
+    // Array para armazenar as opções selecionadas na questão 5
+    let selectedAttributes = [];
+
+    // Event listener para capturar seleções na questão 5
+    attributesForm.addEventListener('change', function(event) {
+        const checkbox = event.target;
+        const attribute = checkbox.value;
+
+        if (checkbox.checked) {
+            selectedAttributes.push(attribute);
+        } else {
+            selectedAttributes = selectedAttributes.filter(item => item !== attribute);
+        }
+
+        // Atualiza a questão 6 (distribuição de pontos)
+        updatePointsQuestion();
+
+        // Atualiza a questão 7 (tabela de notas)
+        updateRatingsTable();
+    });
+
+    // Função para atualizar a questão 6 (distribuição de pontos)
+    function updatePointsQuestion() {
+        pointsForm.innerHTML = ''; // Limpa o formulário
+
+        if (selectedAttributes.length > 0) {
+            selectedAttributes.forEach(attribute => {
+                const label = document.createElement('label');
+                label.textContent = `${attribute}: `;
+                
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.name = attribute;
+                input.min = 0;
+                input.max = 100;
+                input.required = true;
+                input.addEventListener('input', function() {
+                    const totalUsedPoints = getTotalUsedPoints();
+                    const remainingPoints = 100 - totalUsedPoints;
+                    totalPointsSpan.textContent = totalUsedPoints;
+                    input.setCustomValidity('');
+                    
+                    if (totalUsedPoints > 100) {
+                        input.setCustomValidity('Você ultrapassou 100 pontos.');
+                    } else if (remainingPoints < 0) {
+                        input.setCustomValidity('Você excedeu o limite de 100 pontos.');
+                    } else {
+                        input.setCustomValidity('');
+                    }
+                    
+                    input.reportValidity();
+                });
+                
+                pointsForm.appendChild(label);
+                pointsForm.appendChild(input);
+                pointsForm.appendChild(document.createElement('br'));
+            });
+        }
+    }
+
+    // Função para calcular o total de pontos usados na questão 6
+    function getTotalUsedPoints() {
+        let total = 0;
+        const inputs = pointsForm.querySelectorAll('input[type="number"]');
+        
+        inputs.forEach(input => {
+            if (input.value !== '') {
+                total += parseInt(input.value, 10);
+            }
+        });
+
+        return total;
+    }
+
+    // Função para atualizar a questão 7 (tabela de notas)
+    function updateRatingsTable() {
+        ratingsBody.innerHTML = ''; // Limpa a tabela
+
+        if (selectedAttributes.length > 0) {
+            selectedAttributes.forEach(attribute => {
+                const row = document.createElement('tr');
+                
+                // Célula para o atributo
+                const attributeCell = document.createElement('td');
+                attributeCell.textContent = attribute;
+                row.appendChild(attributeCell);
+                
+                // Células para notas dos fabricantes
+                const manufacturers = ['CASE', 'CATERPILLAR', 'JCB', 'JOHN DEERE', 'HYUNDAI', 'KOMATSU', 'VOLVO'];
+                manufacturers.forEach(manufacturer => {
+                    const ratingCell = document.createElement('td');
+                    ratingCell.setAttribute('data-label', manufacturer);
+                    const select = document.createElement('select');
+                    select.name = `${attribute}-${manufacturer}`;
+                    const emptyOption = document.createElement('option');
+                    emptyOption.value = "";
+                    emptyOption.textContent = "";
+                    select.appendChild(emptyOption);
+                    for (let i = 1; i <= 5; i++) {
+                        const option = document.createElement('option');
+                        option.value = i;
+                        option.textContent = i;
+                        select.appendChild(option);
+                    }
+                    ratingCell.appendChild(select);
+                    row.appendChild(ratingCell);
+                });
+                
+                ratingsBody.appendChild(row);
+            });
+        }
+    }
+});
+    // Script para mostrar/esconder caixas de texto conforme seleção das opções f, g, h
+    const checkboxF = document.getElementById('fonte_f');
+    const checkboxG = document.getElementById('fonte_g');
+    const checkboxH = document.getElementById('fonte_h');
+    const inputPortais = document.getElementById('portais_internet');
+    const inputRedesSociais = document.getElementById('redes_sociais');
+    const inputInfluencers = document.getElementById('influencers');
+
+    checkboxF.addEventListener('change', function() {
+        if (checkboxF.checked) {
+            inputPortais.style.display = 'inline-block';
+        } else {
+            inputPortais.style.display = 'none';
+            inputPortais.value = '';
+        }
+    });
+
+    checkboxG.addEventListener('change', function() {
+        if (checkboxG.checked) {
+            inputRedesSociais.style.display = 'inline-block';
+        } else {
+            inputRedesSociais.style.display = 'none';
+            inputRedesSociais.value = '';
+        }
+    });
+
+    checkboxH.addEventListener('change', function() {
+        if (checkboxH.checked) {
+            inputInfluencers.style.display = 'inline-block';
+        } else {
+            inputInfluencers.style.display = 'none';
+            inputInfluencers.value = '';
+        }
+    });
+
+    const slider = document.getElementById('weightSlider');
+    const factor1Weight = document.getElementById('factor1Weight');
+    const factor2Weight = document.getElementById('factor2Weight');
+
+    slider.addEventListener('input', function() {
+        const factor1 = slider.value;
+        const factor2 = 100 - factor1;
+        factor1Weight.textContent = factor1;
+        factor2Weight.textContent = factor2;
+    });
+</script>
+</body>
+</html>
